@@ -1,6 +1,7 @@
 using CarRentalSystem00016495.Api.Data.DbContexts;
 using CarRentalSystem00016495.Api.Data.IRepositories;
 using CarRentalSystem00016495.Api.Data.Repositories;
+using CarRentalSystem00016495.Api.Service.Mappers;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +17,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(option =>
                 option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Mapper registered
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+// Service regisration
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+
 
 var app = builder.Build();
 
