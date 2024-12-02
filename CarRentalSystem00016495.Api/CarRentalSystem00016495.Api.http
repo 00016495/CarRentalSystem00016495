@@ -1,0 +1,6 @@
+@CarRentalSystem00016495.Api_HostAddress = http://localhost:5010
+
+GET {{CarRentalSystem00016495.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
