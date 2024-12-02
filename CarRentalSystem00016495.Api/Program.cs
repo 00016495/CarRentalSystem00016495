@@ -1,3 +1,8 @@
+using CarRentalSystem00016495.Api.Data.DbContexts;
+using CarRentalSystem00016495.Api.Data.IRepositories;
+using CarRentalSystem00016495.Api.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +11,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Configure Database
+builder.Services.AddDbContext<AppDbContext>(option =>
+                option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 var app = builder.Build();
 
