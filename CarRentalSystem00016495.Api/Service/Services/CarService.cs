@@ -13,7 +13,7 @@ public class CarService(IMapper mapper, IRepository<Car> carRepository) : ICarSe
     public async Task<bool> AddAsync(CarForCreationDto dto, CancellationToken cancellationToken = default)
     {
         var car = await carRepository.SelectAll()
-            .Where(c => string.Equals(c.Name, dto.Name, StringComparison.OrdinalIgnoreCase))
+            .Where(c => c.Name.ToLower() == dto.Name.ToLower() && c.Model.ToLower() == dto.Model.ToLower())
             .FirstOrDefaultAsync();
         if (car is not null )
         {
@@ -30,7 +30,7 @@ public class CarService(IMapper mapper, IRepository<Car> carRepository) : ICarSe
 
     public async Task<bool> DeleteByIdAsync(long id, CancellationToken cancellationToken = default)
     {
-        var car = carRepository.SelectAsync(id, cancellationToken);
+        var car = await carRepository.SelectAsync(id, cancellationToken);
         if (car is null)
             throw new CustomException(404, "Car not found");
 
